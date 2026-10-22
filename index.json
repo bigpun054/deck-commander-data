@@ -1,0 +1,52 @@
+[
+ {
+  "name": "Y'shtola, Night's Blessed",
+  "slug": "yshtola-nights-blessed",
+  "cards": 314
+ },
+ {
+  "name": "Edgar Markov",
+  "slug": "edgar-markov",
+  "cards": 273
+ },
+ {
+  "name": "The Ur-Dragon",
+  "slug": "the-ur-dragon",
+  "cards": 243
+ },
+ {
+  "name": "Atraxa, Praetors' Voice",
+  "slug": "atraxa-praetors-voice",
+  "cards": 289
+ },
+ {
+  "name": "Krenko, Mob Boss",
+  "slug": "krenko-mob-boss",
+  "cards": 221
+ },
+ {
+  "name": "Vivi Ornitier",
+  "slug": "vivi-ornitier",
+  "cards": 293
+ },
+ {
+  "name": "Sauron, the Dark Lord",
+  "slug": "sauron-the-dark-lord",
+  "cards": 295
+ },
+ {
+  "name": "Kaalia of the Vast",
+  "slug": "kaalia-of-the-vast",
+  "cards": 263
+ },
+ {
+  "name": "Teval, the Balanced Scale",
+  "slug": "teval-the-balanced-scale",
+  "cards": 257
+ },
+ {
+  "name": "Fire Lord Azula",
+  "slug": "fire-lord-azula",
+  "cards": 276
+ }
+]
