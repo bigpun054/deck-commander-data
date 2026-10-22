@@ -1,7 +1,5 @@
 name: Fetch commander suggestions
 on:
-  schedule:
-    - cron: "17 10 * * 1"   # weekly, Mondays
   workflow_dispatch:
     inputs:
       limit:
