@@ -1,0 +1,132 @@
+{
+ "commander_page": {
+  "url": "https://json.edhrec.com/pages/commanders/edgar-markov.json",
+  "status": "ok",
+  "top_level_keys": [
+   "creature",
+   "instant",
+   "sorcery",
+   "artifact",
+   "enchantment",
+   "battle",
+   "planeswalker",
+   "land",
+   "basic",
+   "nonbasic",
+   "similar",
+   "bracket_counts",
+   "budget_counts",
+   "tag_counts",
+   "savedate_counts",
+   "header",
+   "panels",
+   "description",
+   "container"
+  ],
+  "json_dict_keys": [
+   "cardlists",
+   "card"
+  ],
+  "price_or_history_fields": {
+   "savedate_counts": "{\"2024-10-23\": 22, \"2024-10-24\": 22, \"2024-10-25\": 40, \"2024-10-26\": 36, \"2024-10-27\": 52, \"2024-10-28\": 33, \"2024-10-29\": 27, \"2024-10-30\": 43, \"2024-10-31\": 13, \"2024-11-01\": 13, \"2024-11-02\": 43, \"2024-11-03\": 14, \"2024-11-04\": 26, \"2024-11-05\": 33, \"2024-11-06\": 15, \"2024-11-07\": 48, \"2024-11-08",
+   "panels.piechart": "{\"content\": [{\"label\": \"Land\", \"value\": 36, \"color\": \"#e98125\"}, {\"label\": \"Planeswalker\", \"value\": 1, \"color\": \"#7b6688\"}, {\"label\": \"Enchantment\", \"value\": 6, \"color\": \"#d8d138\"}, {\"label\": \"Artifact\", \"value\": 9, \"color\": \"#634c22\"}, {\"label\": \"Sorcery\", \"value\": 6, \"color\": \"#961818\"}, {\"label\":",
+   "panels.rank_over_time": "{\"2024-10-01\": {\"commander_count\": 288, \"perc_of_decks_overall\": 0.452, \"perc_of_decks_overall_ma\": 0.442, \"rank\": 11, \"rank_ma\": 13}, \"2024-11-01\": {\"commander_count\": 916, \"perc_of_decks_overall\": 0.431, \"perc_of_decks_overall_ma\": 0.436, \"rank\": 15, \"rank_ma\": 12}, \"2024-12-01\": {\"commander_count",
+   "panels.articles[].date": "\"Oct 12, 2026\"",
+   "container.json_dict.cardlists[].cardviews[].trend_zscore": "15.877712493990362",
+   "container.json_dict.card.prices": "{\"cardhoarder\": {\"price\": 1.73, \"slug\": \"65693\"}, \"cardkingdom\": {\"price\": 39.99, \"slug\": \"mtg/innistrad-remastered-variants/edgar-markov-0428-retro-frame-foil\"}, \"cardmarket\": {\"price\": 26.28, \"set\": \"Innistrad Remastered: Extras\", \"slug\": \"Edgar+Markov\"}, \"cardsphere\": {\"price\": 25.7, \"set\": \"INR\"",
+   "container.json_dict.card.prices.cardhoarder.price": "1.73",
+   "container.json_dict.card.prices.cardkingdom.price": "39.99",
+   "container.json_dict.card.prices.cardmarket.price": "26.28",
+   "container.json_dict.card.prices.cardsphere.price": "25.7",
+   "container.json_dict.card.prices.cardtrader.price": "32.59",
+   "container.json_dict.card.prices.face2face.price": "39.23",
+   "container.json_dict.card.prices.manapool.price": "28.13",
+   "container.json_dict.card.prices.mtgstocks.price": "28.19",
+   "container.json_dict.card.prices.scg.price": "33.99",
+   "container.json_dict.card.prices.tcgplayer.price": "28.19",
+   "container.json_dict.card.prices.tcgplayer.price_source": "\"marketPrice\""
+  }
+ },
+ "card_page": {
+  "url": "https://json.edhrec.com/pages/cards/sol-ring.json",
+  "status": "ok",
+  "top_level_keys": [
+   "creature",
+   "instant",
+   "sorcery",
+   "artifact",
+   "enchantment",
+   "battle",
+   "planeswalker",
+   "land",
+   "basic",
+   "nonbasic",
+   "similar",
+   "header",
+   "panels",
+   "description",
+   "container"
+  ],
+  "json_dict_keys": [
+   "cardlists",
+   "card"
+  ],
+  "price_or_history_fields": {
+   "panels.piechart": "{\"content\": [{\"label\": \"Land\", \"value\": 35, \"color\": \"#e98125\"}, {\"label\": \"Planeswalker\", \"value\": 1, \"color\": \"#7b6688\"}, {\"label\": \"Enchantment\", \"value\": 7, \"color\": \"#d8d138\"}, {\"label\": \"Artifact\", \"value\": 11, \"color\": \"#634c22\"}, {\"label\": \"Sorcery\", \"value\": 8, \"color\": \"#961818\"}, {\"label\"",
+   "panels.articles[].date": "\"Oct 14, 2026\"",
+   "container.json_dict.card.prices": "{\"cardhoarder\": {\"price\": 0.04, \"slug\": \"138121\"}, \"cardkingdom\": {\"price\": 2.79, \"slug\": \"mtg/final-fantasy-commander-decks/sol-ring-0358\"}, \"cardmarket\": {\"price\": 0.65, \"set\": \"Commander 2016\", \"slug\": \"Sol+Ring\"}, \"cardsphere\": {\"price\": 1.12, \"set\": \"FIC\", \"slug\": \"137103\"}, \"cardtrader\": {\"pri",
+   "container.json_dict.card.prices.cardhoarder.price": "0.04",
+   "container.json_dict.card.prices.cardkingdom.price": "2.79",
+   "container.json_dict.card.prices.cardmarket.price": "0.65",
+   "container.json_dict.card.prices.cardsphere.price": "1.12",
+   "container.json_dict.card.prices.cardtrader.price": "1.33",
+   "container.json_dict.card.prices.face2face.price": "2.49",
+   "container.json_dict.card.prices.manapool.price": "1.04",
+   "container.json_dict.card.prices.mtgstocks.price": "1.32",
+   "container.json_dict.card.prices.scg.price": "1.79",
+   "container.json_dict.card.prices.tcgplayer.price": "1.24",
+   "container.json_dict.card.prices.tcgplayer.price_source": "\"marketPrice\""
+  }
+ },
+ "card_page_2": {
+  "url": "https://json.edhrec.com/pages/cards/arcane-signet.json",
+  "status": "ok",
+  "top_level_keys": [
+   "creature",
+   "instant",
+   "sorcery",
+   "artifact",
+   "enchantment",
+   "battle",
+   "planeswalker",
+   "land",
+   "basic",
+   "nonbasic",
+   "similar",
+   "header",
+   "panels",
+   "description",
+   "container"
+  ],
+  "json_dict_keys": [
+   "cardlists",
+   "card"
+  ],
+  "price_or_history_fields": {
+   "panels.piechart": "{\"content\": [{\"label\": \"Land\", \"value\": 34, \"color\": \"#e98125\"}, {\"label\": \"Planeswalker\", \"value\": 1, \"color\": \"#7b6688\"}, {\"label\": \"Enchantment\", \"value\": 7, \"color\": \"#d8d138\"}, {\"label\": \"Artifact\", \"value\": 11, \"color\": \"#634c22\"}, {\"label\": \"Sorcery\", \"value\": 8, \"color\": \"#961818\"}, {\"label\"",
+   "panels.articles[].date": "\"Sep 22, 2026\"",
+   "container.json_dict.card.prices": "{\"cardhoarder\": {\"price\": 0.04, \"slug\": \"138119\"}, \"cardkingdom\": {\"price\": 0.79, \"slug\": \"mtg/modern-horizons-3-commander-decks/arcane-signet\"}, \"cardmarket\": {\"price\": 0.08, \"set\": \"Secret Lair Commander Deck: Odds and Ends\", \"slug\": \"Arcane+Signet\"}, \"cardsphere\": {\"price\": 0.32, \"set\": \"FIC\", \"s",
+   "container.json_dict.card.prices.cardhoarder.price": "0.04",
+   "container.json_dict.card.prices.cardkingdom.price": "0.79",
+   "container.json_dict.card.prices.cardmarket.price": "0.08",
+   "container.json_dict.card.prices.cardsphere.price": "0.32",
+   "container.json_dict.card.prices.cardtrader.price": "0.44",
+   "container.json_dict.card.prices.face2face.price": "0.71",
+   "container.json_dict.card.prices.manapool.price": "0.28",
+   "container.json_dict.card.prices.mtgstocks.price": "0.4",
+   "container.json_dict.card.prices.scg.price": "0.76",
+   "container.json_dict.card.prices.tcgplayer.price": "0.35",
+   "container.json_dict.card.prices.tcgplayer.price_source": "\"marketPrice\""
+  }
+ }
+}
