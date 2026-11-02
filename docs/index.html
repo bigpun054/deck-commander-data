@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#14110f">
+<title>Deck Shelf Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14110f;--panel:#1f1a16;--panel2:#18140f;--line:#3a2f26;--line2:#2c241e;--text:#f2ebe3;--muted:#b3a698;--accent:#e8892c;--link:#f0a04b;
+--ok:#6ee0a6;--okbg:#16301f;--okline:#2f6b47;--warn:#f5c46b;--warnbg:#33260f;--warnline:#6b4a1f;--bad:#ff8f87;--badbg:#3a1714;--badline:#7a2c26;--run:#8fc3ff;--runbg:#132538;--runline:#2c5277}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,system-ui,sans-serif}
+a{color:var(--link)}a:hover{color:#ffc27a}
+button{font:inherit;cursor:pointer}
+button:disabled{opacity:.55;cursor:default}
+.wrap{max-width:1200px;margin:0 auto;padding:24px 16px 48px;display:flex;flex-direction:column;gap:20px}
+.disp{font-family:'Barlow Semi Condensed',sans-serif}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.eyebrow{font-family:'Barlow Semi Condensed',sans-serif;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--link);font-weight:600}
+h1{margin:2px 0;font-family:'Barlow Semi Condensed',sans-serif;font-size:34px;font-weight:700;letter-spacing:.02em}
+h2{margin:0;font-family:'Barlow Semi Condensed',sans-serif;font-size:22px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.muted{color:var(--muted)}.small{font-size:13px}
+.btn{min-height:44px;padding:0 18px;border-radius:10px;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:8px;border:1px solid #5a4a3c;background:transparent;color:var(--text)}
+.btn.primary{background:var(--accent);color:#1a120a;border:none;font-weight:700}
+.btn.outline{background:#2a221c;border-color:var(--accent)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px}
+.pad{padding:20px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:600}
+.big{font-family:'Barlow Semi Condensed',sans-serif;font-size:30px;font-weight:700}
+.ring{width:96px;height:96px;border-radius:50%;border:6px solid var(--muted);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Barlow Semi Condensed',sans-serif;font-size:44px;font-weight:700}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;font-size:13px;font-weight:600;border:1px solid}
+.s-ok{background:var(--okbg);color:var(--ok);border-color:var(--okline)}
+.s-warn{background:var(--warnbg);color:var(--warn);border-color:var(--warnline)}
+.s-bad{background:var(--badbg);color:var(--bad);border-color:var(--badline)}
+.s-run{background:var(--runbg);color:var(--run);border-color:var(--runline)}
+.s-none{background:#2a221c;color:var(--muted);border-color:#5a4a3c}
+.tag{font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid #5a4a3c;color:var(--muted)}
+.sechead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.repo{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;padding:16px 20px;border-bottom:1px solid var(--line2)}
+.repo:last-child{border-bottom:none}
+.dots{display:flex;gap:4px;margin-top:6px}
+.dot{width:12px;height:12px;border-radius:3px}
+.d-ok{background:#3fae78}.d-bad{background:#e5534b}.d-run{background:#4d8fd6}.d-other{background:#6b5d50}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px 16px;font-size:13px;flex:0 1 220px}
+.split{display:flex;flex-wrap:wrap;gap:16px}
+.issue{border:1px solid var(--line);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:6px}
+.issue.bad{border-color:var(--badline);background:#26120f}
+.issue.warn{border-color:var(--warnline);background:#2a2016}
+pre{margin:0;font:12px/1.5 'JetBrains Mono',monospace;color:#c9bcae;background:#15110e;border-radius:8px;padding:10px;overflow-x:auto;white-space:pre}
+.check{display:flex;align-items:flex-start;gap:10px;font-size:14px;min-height:28px}
+.mark{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.m-ok{background:#2f6b47;color:#e6fff0}.m-warn{background:#8a5f12;color:#fff3d6}.m-bad{background:#9b2f28;color:#fff0ee}.m-run{background:#2c5277;color:#e6f2ff}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px}
+th{text-align:left;padding:8px 10px;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid var(--line);font-weight:600}
+td{padding:10px;border-bottom:1px solid var(--line2);vertical-align:top}
+.scroll{overflow-x:auto}
+.stat{background:var(--panel2);border-radius:10px;padding:14px}
+.stat .v{font-family:'Barlow Semi Condensed',sans-serif;font-size:28px;font-weight:700}
+input[type=password],input[type=text]{width:100%;min-height:44px;padding:0 12px;border-radius:10px;border:1px solid #5a4a3c;background:#15110e;color:var(--text);font:14px 'JetBrains Mono',monospace}
+label{display:block;font-weight:600;margin-bottom:6px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#2a221c;border:1px solid var(--accent);color:var(--text);padding:12px 18px;border-radius:10px;max-width:90vw;font-size:14px;box-shadow:0 6px 24px rgba(0,0,0,.4)}
+ol li{margin-bottom:6px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap" id="app" aria-live="polite"></div>
+<div class="toast hidden" id="toast" role="status"></div>
+<script>
+(function () {
+'use strict';
+var OWNER = 'bigpun054';
+var RAW_DATA = 'https://raw.githubusercontent.com/bigpun054/deck-price-data/data/';
+var RAW_CMDR = 'https://raw.githubusercontent.com/bigpun054/deck-commander-data/main/';
+var REPOS = [
+  { id: 'app', name: 'deck-price-check', workflow: 'build.yml', desc: 'The app. Tests, builds and publishes the APK on every push.', rebuild: 'Rebuild APK' },
+  { id: 'price', name: 'deck-price-data', workflow: 'price-history.yml', desc: 'Daily prices, card-name index, tokens, sets and budget swaps.', rebuild: 'Rebuild data' },
+  { id: 'cmdr', name: 'deck-commander-data', workflow: 'commander-data.yml', desc: 'EDHREC commander suggestions. Manual run only.', rebuild: 'Rebuild', inputs: { limit: '10' } }
+];
+var TOKEN_KEY = 'dsc-token';
+var state = { data: null, loading: false, error: null, lastChecked: null, dispatching: {}, rate: null };
+var timer = null;
+
+function getToken() { try { return localStorage.getItem(TOKEN_KEY) || ''; } catch (e) { return ''; } }
+function setToken(t) { try { if (t) localStorage.setItem(TOKEN_KEY, t); else localStorage.removeItem(TOKEN_KEY); } catch (e) {} }
+
+// Tiny element builder: text always goes in as text, never as HTML
+function h(tag, attrs) {
+  var el = document.createElement(tag);
+  if (attrs) for (var k in attrs) {
+    var v = attrs[k];
+    if (v == null || v === false) continue;
+    if (k === 'class') el.className = v;
+    else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? '' : v);
+  }
+  for (var i = 2; i < arguments.length; i++) add(el, arguments[i]);
+  return el;
+}
+function add(el, c) {
+  if (c == null || c === false) return;
+  if (Array.isArray(c)) { c.forEach(function (x) { add(el, x); }); return; }
+  el.appendChild(typeof c === 'object' ? c : document.createTextNode(String(c)));
+}
+function svg(path, size, color) {
+  var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  s.setAttribute('width', size || 16); s.setAttribute('height', size || 16); s.setAttribute('viewBox', '0 0 24 24');
+  s.setAttribute('fill', 'none'); s.setAttribute('stroke', color || 'currentColor'); s.setAttribute('stroke-width', '2');
+  s.setAttribute('stroke-linecap', 'round'); s.setAttribute('stroke-linejoin', 'round'); s.setAttribute('aria-hidden', 'true');
+  s.innerHTML = path; // fixed icon paths only
+  return s;
+}
+var ICON = {
+  refresh: '<path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 3v6h-6"/>',
+  ext: '<path d="M14 4h6v6"/><path d="M20 4 10 14"/><path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/>',
+  check: '<path d="m5 12 5 5 9-10"/>', x: '<path d="M6 6l12 12M18 6 6 18"/>', bang: '<path d="M12 7v6"/><path d="M12 17h.01"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+};
+
+function toast(msg) {
+  var t = document.getElementById('toast'); t.textContent = msg; t.classList.remove('hidden');
+  clearTimeout(toast._t); toast._t = setTimeout(function () { t.classList.add('hidden'); }, 4000);
+}
+
+function ago(iso) {
+  if (!iso) return '—';
+  var s = (Date.now() - new Date(iso).getTime()) / 1000;
+  if (s < 60) return 'just now';
+  if (s < 3600) return Math.round(s / 60) + ' min ago';
+  if (s < 86400) return Math.round(s / 3600) + ' h ago';
+  var d = Math.round(s / 86400); return d + (d === 1 ? ' day ago' : ' days ago');
+}
+function when(iso) {
+  if (!iso) return '—';
+  var d = new Date(iso), now = new Date();
+  var t = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  if (d.toDateString() === now.toDateString()) return 'Today ' + t;
+  var y = new Date(now); y.setDate(now.getDate() - 1);
+  if (d.toDateString() === y.toDateString()) return 'Yesterday ' + t;
+  return d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + t;
+}
+function hoursSince(iso) { return iso ? (Date.now() - new Date(iso).getTime()) / 3600000 : Infinity; }
+function mb(bytes) { if (bytes == null) return '—'; if (bytes >= 1e9) return (bytes / 1e9).toFixed(2) + ' GB'; return (bytes / 1e6).toFixed(1) + ' MB'; }
+function num(n) { return n == null ? '—' : Number(n).toLocaleString(); }
+function dur(a, b) { if (!a || !b) return ''; var s = Math.max(0, (new Date(b) - new Date(a)) / 1000); return s < 60 ? Math.round(s) + 's' : Math.floor(s / 60) + 'm ' + Math.round(s % 60) + 's'; }
+
+function gh(path, opts) {
+  opts = opts || {};
+  return fetch('https://api.github.com' + path, {
+    method: opts.method || 'GET',
+    headers: { 'Accept': 'application/vnd.github+json', 'Authorization': 'Bearer ' + getToken(), 'X-GitHub-Api-Version': '2022-11-28' },
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+    cache: 'no-store'
+  }).then(function (r) {
+    var rem = r.headers.get('x-ratelimit-remaining'); if (rem != null) state.rate = rem;
+    if (r.status === 204) return null;
+    return r.json().catch(function () { return null; }).then(function (j) {
+      if (!r.ok) { var e = new Error((j && j.message) || ('HTTP ' + r.status)); e.status = r.status; throw e; }
+      return j;
+    });
+  });
+}
+function raw(url) { return fetch(url + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }); }
+function soft(p) { return p.then(function (v) { return { ok: true, v: v }; }, function (e) { return { ok: false, e: e }; }); }
+
+function runStatus(run) {
+  if (!run) return 'none';
+  if (run.status !== 'completed') return 'run';
+  if (run.conclusion === 'success') return 'ok';
+  if (run.conclusion === 'failure' || run.conclusion === 'timed_out' || run.conclusion === 'startup_failure') return 'bad';
+  return 'other';
+}
+
+function load() {
+  if (state.loading) return;
+  state.loading = true; render();
+  var jobs = REPOS.map(function (r) {
+    return Promise.all([
+      soft(gh('/repos/' + OWNER + '/' + r.name)),
+      soft(gh('/repos/' + OWNER + '/' + r.name + '/actions/workflows/' + r.workflow + '/runs?per_page=15'))
+    ]).then(function (res) {
+      if (!res[0].ok) throw res[0].e;
+      return { repo: res[0].v, runs: res[1].ok ? res[1].v.workflow_runs : [], runsError: res[1].ok ? null : res[1].e.message };
+    });
+  });
+  Promise.all(jobs.concat([
+    soft(gh('/repos/' + OWNER + '/deck-price-check/releases/tags/latest')),
+    soft(raw(RAW_DATA + 'meta.json')),
+    soft(raw(RAW_CMDR + 'index.json'))
+  ])).then(function (all) {
+    var d = { repos: {}, release: all[3].ok ? all[3].v : null, meta: all[4].ok ? all[4].v : null, cmdr: all[5].ok ? all[5].v : null };
+    REPOS.forEach(function (r, i) { d.repos[r.id] = all[i]; });
+    // Details for the app's latest main run (jobs), and for recent failures (which step broke)
+    var appMain = d.repos.app.runs.filter(function (x) { return x.head_branch === 'main'; });
+    d.appLatest = appMain[0] || null;
+    d.appLastDone = appMain.filter(function (x) { return x.status === 'completed'; })[0] || null;
+    d.appLastOk = appMain.filter(function (x) { return x.conclusion === 'success'; })[0] || null;
+    var fails = [];
+    REPOS.forEach(function (r) {
+      d.repos[r.id].runs.forEach(function (run) {
+        if (runStatus(run) === 'bad' && hoursSince(run.created_at) < 24 * 7) fails.push({ repo: r, run: run });
+      });
+    });
+    fails.sort(function (a, b) { return new Date(b.run.created_at) - new Date(a.run.created_at); });
+    d.fails = fails.slice(0, 6);
+    var detail = [];
+    if (d.appLastDone) detail.push(soft(gh('/repos/' + OWNER + '/deck-price-check/actions/runs/' + d.appLastDone.id + '/jobs')).then(function (x) { d.appJobs = x.ok ? x.v.jobs : null; }));
+    d.fails.forEach(function (f) {
+      detail.push(soft(gh('/repos/' + OWNER + '/' + f.repo.name + '/actions/runs/' + f.run.id + '/jobs')).then(function (x) { f.jobs = x.ok ? x.v.jobs : null; }));
+    });
+    return Promise.all(detail).then(function () { return d; });
+  }).then(function (d) {
+    state.data = d; state.error = null; state.lastChecked = new Date().toISOString();
+  }, function (e) {
+    state.error = e;
+  }).then(function () {
+    state.loading = false; render(); schedule();
+  });
+}
+
+function anyRunning() {
+  if (!state.data) return false;
+  return REPOS.some(function (r) { var x = state.data.repos[r.id].runs[0]; return x && x.status !== 'completed'; }) || Object.keys(state.dispatching).length > 0;
+}
+function schedule() {
+  clearTimeout(timer);
+  if (!getToken()) return;
+  timer = setTimeout(function () { if (document.visibilityState === 'visible') load(); else schedule(); }, anyRunning() ? 15000 : 120000);
+}
+document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible' && getToken() && hoursSince(state.lastChecked) > 1 / 60) load(); });
+
+function dispatch(r) {
+  var repoInfo = state.data && state.data.repos[r.id].repo;
+  var ref = (repoInfo && repoInfo.default_branch) || 'main';
+  var body = { ref: ref }; if (r.inputs) body.inputs = r.inputs;
+  state.dispatching[r.id] = true; render();
+  gh('/repos/' + OWNER + '/' + r.name + '/actions/workflows/' + r.workflow + '/dispatches', { method: 'POST', body: body }).then(function () {
+    toast(r.name + ': rebuild started');
+    setTimeout(function () { delete state.dispatching[r.id]; load(); }, 5000);
+  }, function (e) {
+    delete state.dispatching[r.id]; render();
+    toast(r.name + ': could not start (' + (e.status === 403 || e.status === 404 ? 'token needs Actions: Read and write' : e.message) + ')');
+  });
+}
+function dispatchAll() { REPOS.forEach(dispatch); }
+
+// ---------- The checks behind the grade ----------
+function checks(d) {
+  var out = [];
+  function c(label, s, note) { out.push({ label: label, s: s, note: note }); }
+  var app = d.appLatest, done = d.appLastDone;
+  if (!app) c('App build ran on main', 'bad', 'No runs found');
+  else c('Latest app build on main passed', runStatus(app) === 'run' ? 'run' : runStatus(app) === 'ok' ? 'ok' : 'bad', 'Build ' + app.run_number + ' · ' + ago(app.created_at));
+  var jobs = d.appJobs || [];
+  function job(name) { return jobs.filter(function (j) { return j.name === name; })[0]; }
+  var t = job('tests'), s = job('data-repo-sync');
+  c('App tests passed', !t ? 'none' : t.conclusion === 'success' ? 'ok' : 'bad', done ? 'Build ' + done.run_number : '');
+  c('App and data repo in sync', !s ? 'none' : s.conclusion === 'success' ? 'ok' : 'bad', s && s.conclusion !== 'success' ? 'price-data-repo/ has drifted' : '');
+  var apk = d.release && (d.release.assets || []).filter(function (a) { return /\.apk$/.test(a.name); })[0];
+  var apkBuild = apk && (apk.name.match(/build(\d+)/) || [])[1];
+  var okBuild = d.appLastOk && String(d.appLastOk.run_number);
+  c('Newest passing build is published', !apk ? 'bad' : apkBuild === okBuild ? 'ok' : 'warn', apk ? 'Release has build ' + apkBuild : 'No APK on the latest release');
+  var pr = d.repos.price.runs[0];
+  c('Last price data run passed', runStatus(pr) === 'run' ? 'run' : runStatus(pr) === 'ok' ? 'ok' : 'bad', pr ? ago(pr.created_at) : 'No runs');
+  var built = d.meta && d.meta.built;
+  c('Price data built in the last 26 hours', !built ? 'bad' : hoursSince(built) <= 26 ? 'ok' : 'bad', built ? 'Built ' + ago(built) : 'meta.json not readable');
+  c('Card-name index and swaps present', !d.meta ? 'bad' : (d.meta.names > 0 && d.meta.swaps > 0) ? 'ok' : 'bad', d.meta ? num(d.meta.names) + ' printings · ' + num(d.meta.swaps) + ' swap cards' : '');
+  var cr = d.repos.cmdr.runs[0];
+  c('Last commander data run passed', runStatus(cr) === 'run' ? 'run' : runStatus(cr) === 'ok' ? 'ok' : !cr ? 'none' : 'bad', cr ? ago(cr.created_at) + ' (manual)' : 'Never run');
+  return out;
+}
+function grade(list) {
+  var scored = list.filter(function (x) { return x.s === 'ok' || x.s === 'warn' || x.s === 'bad'; });
+  if (!scored.length) return { letter: '—', pct: 0, pass: 0, total: 0 };
+  var pts = scored.reduce(function (a, x) { return a + (x.s === 'ok' ? 1 : x.s === 'warn' ? 0.5 : 0); }, 0);
+  var pct = pts / scored.length * 100;
+  var letter = pct >= 100 ? 'A' : pct >= 90 ? 'A-' : pct >= 85 ? 'B+' : pct >= 75 ? 'B' : pct >= 65 ? 'C' : pct >= 50 ? 'D' : 'F';
+  return { letter: letter, pct: pct, pass: scored.filter(function (x) { return x.s === 'ok'; }).length, total: scored.length };
+}
+
+// ---------- Rendering ----------
+function render() {
+  var root = document.getElementById('app'); root.textContent = '';
+  if (!getToken()) { root.appendChild(tokenScreen()); return; }
+  root.appendChild(headerBar());
+  if (state.error) root.appendChild(errorBox(state.error));
+  if (!state.data) { root.appendChild(h('div', { class: 'panel pad muted' }, state.loading ? 'Checking GitHub…' : '')); return; }
+  var d = state.data, list = checks(d), g = grade(list);
+  root.appendChild(topTiles(d, list, g));
+  root.appendChild(repoSection(d));
+  root.appendChild(h('section', { class: 'split' }, issuesPanel(d, list), checksPanel(list)));
+  root.appendChild(dataSection(d));
+  root.appendChild(usersSection());
+  root.appendChild(h('p', { class: 'muted small' }, 'Refreshes on its own every 2 minutes, every 15 seconds while a build runs. ',
+    state.rate != null ? 'GitHub calls left this hour: ' + state.rate + '. ' : '',
+    h('button', { class: 'btn', style: 'min-height:36px;padding:0 12px;margin-left:4px', onclick: function () { setToken(''); state.data = null; render(); } }, 'Forget token')));
+}
+
+function headerBar() {
+  return h('header', null,
+    h('div', null,
+      h('div', { class: 'eyebrow' }, 'Deck Shelf'),
+      h('h1', null, 'Command Center'),
+      h('div', { class: 'muted small' }, state.loading ? 'Checking…' : 'Last checked ' + (state.lastChecked ? when(state.lastChecked) : '—'))),
+    h('div', { class: 'row' },
+      h('button', { class: 'btn', onclick: load, disabled: state.loading }, svg(ICON.refresh), state.loading ? 'Checking…' : 'Refresh'),
+      h('button', { class: 'btn primary', onclick: function () { if (window.confirm('Start rebuilds for all three repos?')) dispatchAll(); }, disabled: !state.data || Object.keys(state.dispatching).length > 0 }, 'Rebuild all')));
+}
+
+function errorBox(e) {
+  var msg = e.status === 401 ? 'GitHub rejected the token. It may have expired or been typed wrong.' : e.status === 404 ? 'GitHub could not find a repo. The token may not include all three Deck Shelf repos.' : 'Could not reach GitHub: ' + e.message;
+  return h('div', { class: 'issue bad' }, h('strong', null, 'Problem'), h('div', null, msg),
+    h('div', { class: 'row' }, h('button', { class: 'btn', onclick: load }, 'Try again'), h('button', { class: 'btn', onclick: function () { setToken(''); state.error = null; state.data = null; render(); } }, 'Enter a new token')));
+}
+
+function topTiles(d, list, g) {
+  var ringColor = g.letter[0] === 'A' ? '#3fae78' : (g.letter[0] === 'B' || g.letter[0] === 'C') ? '#d9a23a' : g.letter === '—' ? '#6b5d50' : '#e5534b';
+  var firstBad = list.filter(function (x) { return x.s === 'bad'; })[0] || list.filter(function (x) { return x.s === 'warn'; })[0];
+  var running = list.some(function (x) { return x.s === 'run'; });
+  var gradeTile = h('div', { class: 'panel pad', style: 'display:flex;align-items:center;gap:20px' },
+    h('div', { class: 'ring', style: 'border-color:' + ringColor, role: 'img', 'aria-label': 'System grade ' + g.letter }, g.letter),
+    h('div', { style: 'display:flex;flex-direction:column;gap:6px' },
+      h('div', { class: 'label' }, 'System grade'),
+      h('div', { style: 'font-size:18px;font-weight:600' }, g.pass + ' of ' + g.total + ' checks passing'),
+      h('div', { class: 'muted small' }, firstBad ? firstBad.label + (firstBad.note ? ' — ' + firstBad.note : '') : running ? 'A build is running now' : 'Everything checks out')));
+
+  var apk = d.release && (d.release.assets || []).filter(function (a) { return /\.apk$/.test(a.name); })[0];
+  var apkBuild = apk && (apk.name.match(/build(\d+)/) || [])[1];
+  var apkTile = h('div', { class: 'panel pad', style: 'display:flex;flex-direction:column;gap:8px' },
+    h('div', { class: 'label' }, 'Latest APK'),
+    h('div', { class: 'big' }, apk ? 'Build ' + (apkBuild || '?') : 'None'),
+    h('div', { class: 'muted small' }, apk ? when(apk.updated_at) + ' · ' + mb(apk.size) + (d.appLastOk && String(d.appLastOk.run_number) === apkBuild ? ' · tests passed' : '') : 'No APK on the latest release'),
+    d.appLatest && runStatus(d.appLatest) === 'run' ? h('span', { class: 'pill s-run', style: 'align-self:flex-start' }, svg(ICON.clock, 14), 'Build ' + d.appLatest.run_number + ' running') : null,
+    h('div', { class: 'row small', style: 'gap:14px;margin-top:4px' },
+      apk ? h('a', { href: apk.browser_download_url }, 'Download APK') : null,
+      h('a', { href: 'https://github.com/bigpun054/deck-price-check/releases/tag/latest' }, 'Releases page')));
+
+  var m = d.meta, pr = d.repos.price.runs[0];
+  var fresh = m && hoursSince(m.built) <= 26;
+  var priceTile = h('div', { class: 'panel pad', style: 'display:flex;flex-direction:column;gap:8px' },
+    h('div', { class: 'label' }, "Today's price data"),
+    h('div', { class: 'row', style: 'gap:10px' },
+      svg(fresh ? '<circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/>' : '<circle cx="12" cy="12" r="10"/><path d="M12 7v6"/><path d="M12 17h.01"/>', 26, fresh ? '#6ee0a6' : '#ff8f87'),
+      h('span', { class: 'big' }, !m ? 'Unknown' : fresh ? 'Built' : 'Not built')),
+    h('div', { class: 'muted small' }, m ? 'Built ' + when(m.built) + ' · prices up to ' + m.latest : 'Could not read meta.json',
+      pr && pr.status === 'completed' ? ' · took ' + dur(pr.run_started_at, pr.updated_at) : ''));
+  return h('section', { class: 'tiles' }, gradeTile, apkTile, priceTile);
+}
+
+function statusPill(run, repoId) {
+  var s = runStatus(run);
+  if (s === 'ok') return h('span', { class: 'pill s-ok' }, svg(ICON.check, 14), repoId === 'price' && hoursSince(run.created_at) < 26 ? 'Built today' : 'Passing');
+  if (s === 'bad') return h('span', { class: 'pill s-bad' }, svg(ICON.x, 14), 'Failed');
+  if (s === 'run') return h('span', { class: 'pill s-run' }, svg(ICON.clock, 14), run.status === 'queued' ? 'Queued' : 'Running');
+  if (s === 'other') return h('span', { class: 'pill s-warn' }, svg(ICON.bang, 14), run.conclusion === 'cancelled' ? 'Cancelled' : run.conclusion);
+  return h('span', { class: 'pill s-none' }, 'No runs');
+}
+
+function repoSection(d) {
+  var sec = h('section', { class: 'panel', style: 'overflow:hidden' },
+    h('div', { class: 'sechead' }, h('h2', null, 'Repos'), h('div', { class: 'muted small' }, REPOS.length + ' repos · GitHub Actions')));
+  REPOS.forEach(function (r) {
+    var x = d.repos[r.id], info = x.repo, runs = x.runs || [], last = runs[0];
+    var dots = h('div', { class: 'dots', 'aria-label': 'Last ' + Math.min(10, runs.length) + ' runs, newest on the left' });
+    runs.slice(0, 10).forEach(function (run) {
+      var s = runStatus(run);
+      dots.appendChild(h('a', { href: run.html_url, class: 'dot d-' + s, title: (run.run_number ? '#' + run.run_number + ' · ' : '') + (run.conclusion || run.status) + ' · ' + when(run.created_at), 'aria-label': 'Run ' + run.run_number + ' ' + (run.conclusion || run.status) }));
+    });
+    var busy = !!state.dispatching[r.id] || (last && last.status !== 'completed');
+    sec.appendChild(h('div', { class: 'repo' },
+      h('div', { style: 'flex:1 1 240px;min-width:0' },
+        h('div', { class: 'row', style: 'gap:8px' }, h('span', { style: 'font-weight:600;font-size:16px' }, r.name), h('span', { class: 'tag' }, info.private ? 'Private' : 'Public')),
+        h('div', { class: 'muted small' }, r.desc),
+        x.runsError ? h('div', { class: 'small', style: 'color:var(--bad)' }, 'Runs unreadable: ' + x.runsError) : dots),
+      statusPill(last, r.id),
+      h('div', { class: 'kv' },
+        h('span', { class: 'muted' }, 'Last run'), h('span', { class: 'muted' }, 'Repo size'),
+        h('span', null, last ? when(last.created_at) : '—'), h('span', null, mb(info.size * 1024))),
+      h('div', { class: 'row', style: 'gap:8px' },
+        h('button', { class: 'btn outline', disabled: busy || !!x.runsError, onclick: function () { dispatch(r); } }, state.dispatching[r.id] ? 'Starting…' : busy ? 'Running…' : r.rebuild),
+        h('a', { class: 'btn', style: 'padding:0;width:44px;justify-content:center', href: (last ? last.html_url : info.html_url + '/actions'), 'aria-label': 'Open ' + r.name + ' on GitHub' }, svg(ICON.ext)))));
+  });
+  return sec;
+}
+
+function issuesPanel(d, list) {
+  var p = h('div', { class: 'panel pad', style: 'flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:14px' },
+    h('div', { class: 'row', style: 'justify-content:space-between' }, h('h2', null, 'Issues'), h('span', { class: 'muted small' }, 'Last 7 days')));
+  var n = 0;
+  list.filter(function (c) { return c.s === 'warn'; }).forEach(function (c) {
+    n++; p.appendChild(h('div', { class: 'issue warn' }, h('span', { style: 'font-weight:600;color:var(--warn)' }, 'Warning · ' + c.label), c.note ? h('div', null, c.note) : null));
+  });
+  d.fails.forEach(function (f) {
+    n++;
+    var steps = [];
+    (f.jobs || []).forEach(function (j) {
+      if (j.conclusion === 'failure') {
+        var st = (j.steps || []).filter(function (s) { return s.conclusion === 'failure'; }).map(function (s) { return s.name; });
+        steps.push(j.name + (st.length ? '  →  ' + st.join(', ') : ''));
+      }
+    });
+    var fixed = d.repos[f.repo.id].runs[0] && d.repos[f.repo.id].runs[0].conclusion === 'success' && d.repos[f.repo.id].runs[0].id !== f.run.id;
+    p.appendChild(h('div', { class: 'issue' + (fixed ? '' : ' bad') },
+      h('div', { class: 'row', style: 'justify-content:space-between' },
+        h('span', { style: 'font-weight:600;color:' + (fixed ? 'var(--muted)' : 'var(--bad)') }, (fixed ? 'Fixed since · ' : 'Failed · ') + f.repo.name + (f.run.run_number ? ' #' + f.run.run_number : '')),
+        h('span', { class: 'muted small' }, when(f.run.created_at))),
+      h('div', null, f.run.display_title || f.run.name),
+      steps.length ? h('pre', null, 'Failed job → step\n' + steps.join('\n')) : null,
+      h('div', { class: 'row small', style: 'gap:14px' }, h('a', { href: f.run.html_url }, 'Open the log'))));
+  });
+  if (!n) p.appendChild(h('div', { class: 'muted' }, 'No failures in the last 7 days.'));
+  return p;
+}
+
+function checksPanel(list) {
+  var p = h('div', { class: 'panel pad', style: 'flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:12px' }, h('h2', null, 'Checks'));
+  var marks = { ok: '✓', warn: '!', bad: '✕', run: '…', none: '–' };
+  list.forEach(function (c) {
+    p.appendChild(h('div', { class: 'check' },
+      h('span', { class: 'mark m-' + (c.s === 'none' ? 'run' : c.s), 'aria-hidden': 'true' }, marks[c.s]),
+      h('span', { style: 'flex:1' }, h('span', { class: 'hidden' }, c.s + ': '), c.label, c.note ? h('div', { class: 'muted small' }, c.note) : null)));
+  });
+  return p;
+}
+
+function dataSection(d) {
+  var m = d.meta || {};
+  var archDays = (m.arch || []).length * (m.block || 90);
+  var rows = [
+    ['Card prices', 'MTGJSON (TCGplayer prices)', num(m.cards) + ' cards in ' + num(m.shards) + ' files · ' + (m.days || '—') + ' recent days + ' + archDays + ' archived', Math.round((m.keep || 730) / 365) + ' years'],
+    ['Card-name index', 'MTGJSON', num(m.names) + ' printings in ' + num(m.nameFiles) + ' files · ' + num(m.unpriced) + ' without a price', 'Latest'],
+    ['Search name list', 'MTGJSON', 'names.json, version ' + (m.namesV || '—'), 'Latest'],
+    ['Sets', 'MTGJSON', num(m.sets) + ' sets', 'Latest'],
+    ['Tokens', 'MTGJSON', num(m.tokens) + ' tokens in ' + num(m.tokenSets) + ' files', 'Latest'],
+    ['Budget swaps', 'EDHREC + our own matches', num(m.swaps) + ' cards in ' + num(m.swapFiles) + ' files', 'Latest'],
+    ['Commander suggestions', 'EDHREC', d.cmdr ? d.cmdr.length + ' commanders' : 'index.json not readable', 'Latest'],
+    ['App builds', 'GitHub Releases', d.release ? (d.release.assets || []).length + ' APK on the latest release' : '—', 'Latest only']
+  ];
+  var tb = h('tbody');
+  rows.forEach(function (r) { tb.appendChild(h('tr', null, h('td', { style: 'font-weight:600' }, r[0]), h('td', null, r[1]), h('td', null, r[2]), h('td', null, r[3]))); });
+  return h('section', { class: 'panel pad', style: 'display:flex;flex-direction:column;gap:14px' },
+    h('div', { class: 'row', style: 'justify-content:space-between' }, h('h2', null, 'Data we keep'), h('span', { class: 'muted small' }, m.built ? 'From meta.json · ' + when(m.built) : '')),
+    h('div', { class: 'scroll' }, h('table', null, h('thead', null, h('tr', null, h('th', null, 'Dataset'), h('th', null, 'Source'), h('th', null, "What's in it"), h('th', null, 'Kept'))), tb)));
+}
+
+function usersSection() {
+  function stat(l) { return h('div', { class: 'stat' }, h('div', { class: 'muted small' }, l), h('div', { class: 'v', style: 'color:#8a7d70' }, '—')); }
+  return h('section', { class: 'panel pad', style: 'border-style:dashed;display:flex;flex-direction:column;gap:14px' },
+    h('div', { class: 'row', style: 'justify-content:space-between' }, h('h2', null, 'Users'), h('span', { class: 'pill s-none', style: 'color:var(--link)' }, 'Coming after launch')),
+    h('div', { class: 'tiles', style: 'grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px' }, stat('Active today'), stat('Installs'), stat('On latest build'), stat('Crashes (7 days)')));
+}
+
+function tokenScreen() {
+  var input = h('input', { type: 'password', id: 'tok', autocomplete: 'off', spellcheck: 'false', placeholder: 'github_pat_…' });
+  function save(ev) { ev.preventDefault(); var v = input.value.trim(); if (!v) return; setToken(v); state.error = null; render(); load(); }
+  return h('div', { style: 'display:flex;flex-direction:column;gap:20px;max-width:640px' },
+    h('header', { style: 'border:none;padding:0' }, h('div', null, h('div', { class: 'eyebrow' }, 'Deck Shelf'), h('h1', null, 'Command Center'))),
+    h('div', { class: 'panel pad', style: 'display:flex;flex-direction:column;gap:14px' },
+      h('h2', null, 'Connect to GitHub'),
+      h('div', null, 'The dashboard reads your repos and starts rebuilds with a GitHub token. It is saved only in this browser.'),
+      h('ol', { style: 'margin:0;padding-left:20px' },
+        h('li', null, 'Open ', h('a', { href: 'https://github.com/settings/personal-access-tokens/new' }, 'new fine-grained token'), ' on GitHub.'),
+        h('li', null, 'Repository access: Only select repositories → deck-price-check, deck-price-data, deck-commander-data.'),
+        h('li', null, 'Repository permissions: Actions → Read and write. Contents → Read-only. (Metadata is added automatically.)'),
+        h('li', null, 'Generate the token, copy it and paste it below.')),
+      h('form', { onsubmit: save, style: 'display:flex;flex-direction:column;gap:10px' },
+        h('label', { for: 'tok' }, 'GitHub token'), input,
+        h('button', { class: 'btn primary', type: 'submit', style: 'align-self:flex-start' }, 'Save and connect'))));
+}
+
+render();
+if (getToken()) load();
+})();
+</script>
+</body>
+</html>
